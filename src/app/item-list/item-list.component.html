@@ -1,0 +1,20 @@
+<h2 class="right">Надходження</h2>
+
+<table class="ui red selectable celled table">
+  <thead>
+    <tr>
+      <th>Накладна</th>
+      <th>Кількість товарів</th>
+      <th>Вартість</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of data">
+      <td>
+        <a [routerLink]="['/show', item.id]"><b>{{ item.article }}</b></a>
+      </td>
+      <td>{{ item.items && item.items.length ? item.items.length : 0 }}</td>
+      <td>{{ calculatePrice(item.items) }}</td>
+    </tr>
+  </tbody>
+</table>

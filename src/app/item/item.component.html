@@ -1,0 +1,25 @@
+<div class="ui raised segment">
+  <div *ngIf="product">
+    <h2>Накладна №{{ product.article }} від {{ product.date }}</h2>
+
+    <div class="ui raised segment">
+      <h3>Прийнято</h3>
+      <table class="ui teal celled table mini">
+        <thead>
+          <th>Товар</th>
+          <th>Кількість</th>
+          <th>Вартість</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of product.items">
+            <td>
+              <a href="">{{ item.name }}</a>
+            </td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.price }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

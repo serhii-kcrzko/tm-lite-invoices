@@ -1,0 +1,69 @@
+<div class="ui raised segment">
+  <h2 class="ui header">Додати вхідну накладну</h2>
+  <form [formGroup]="myForm" novalidate (ngSubmit)="save(myForm)" class="ui form">
+    <div class="field">
+      <label>Накладна №</label>
+      <input type="text" class="form-control" formControlName="article">
+      <div *ngIf="!myForm.controls.article.valid" class="ui message negative">
+          Номер накладної є обов'язковим полем
+      </div>
+    </div>
+
+    <!--date-->
+    <div class="field">
+      <label>Від</label>
+      <input type="date" class="form-control" formControlName="date">
+      <div *ngIf="!myForm.controls.date.valid" class="ui message negative">
+          Дата укладання накладної є обов'язковою до заповнення
+      </div>
+    </div>
+
+    <!--items-->
+    <div formArrayName="items" class="ui piled green segment">
+      <h5>Надходження</h5>
+      <div *ngFor="let address of myForm.controls.items.controls; let i=index" class="ui raised segment">
+        <div class="panel-heading">
+          <span *ngIf="myForm.controls.items.controls.length > 1" (click)="removeRaw(i)"><i class="trash icon red"></i> </span>
+        </div>
+        <div class="panel-body" [formGroupName]="i">
+
+          <div class="field">
+            <label>Сировина</label>
+            <select name="itemsOptions" id="items" class="form-control" formControlName="raw">
+                <option  *ngFor="let value of itemsOptions" [value]="value.id+'-'+value.name" [selected]="value.selected == true">{{value.name}}</option>
+            </select>
+
+            <div [hidden]="myForm.controls.items.controls[i].controls.raw.valid" class="ui message negative">
+                Вкажіть сировину
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Кількість</label>
+            <input type="text" class="form-control" formControlName="quantity">
+            <div [hidden]="myForm.controls.items.controls[i].controls.quantity.valid" class="ui message negative">
+              Вкажіть кількість
+          </div>
+          </div>
+
+          <div class="field">
+            <label>Ціна</label>
+            <input type="text" class="form-control" formControlName="price">
+            <div [hidden]="myForm.controls.items.controls[i].controls.price.valid" class="ui message negative">
+              Вкажіть ціну за одиницю
+          </div>
+          </div>
+
+        </div>
+      </div>
+      <a (click)="addRaw()" style="cursor: default">
+        Додати складову +
+      </a>
+    </div>
+
+    <div class="margin-20">
+      <button type="submit" class="ui button green" [disabled]="!myForm.valid">Зберегти</button>
+    </div>
+    <div class="clearfix"></div>
+  </form>
+  </div>
