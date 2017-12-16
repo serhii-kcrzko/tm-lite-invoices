@@ -54,7 +54,7 @@ export class ItemAddComponent implements OnInit {
 
   save() {
     this.initializeNames();
-    this.http.post('http://localhost:9000/incomings', this.myForm.value)
+    this.http.post('http://tm-lite-db.herokuapp.com/incomings', this.myForm.value)
       .subscribe((data) => this.myForm.reset());
     console.log(this.myForm.value);
   }

@@ -17,7 +17,7 @@ import { ItemListComponent } from './item-list/item-list.component';
 import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'show', pathMatch: 'full' },
   { path: 'show', component: ItemListComponent, canActivate: [LoggedInGuard], pathMatch: 'full' },
   { path: 'show/:id', component: ItemComponent, canActivate: [LoggedInGuard], pathMatch: 'full' },
   { path: 'add', component: ItemAddComponent, canActivate: [LoggedInGuard], pathMatch: 'full' },
