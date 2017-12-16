@@ -11,7 +11,7 @@ import _map from 'lodash/map';
   styleUrls: ['./item-list.component.css']
 })
 export class ItemListComponent implements OnInit {
-  data: any = {};
+  data: any = [];
 
   constructor(private http: Http, private db: BackendService) { }
 

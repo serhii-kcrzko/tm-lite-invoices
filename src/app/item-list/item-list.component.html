@@ -1,3 +1,11 @@
+<span>
+  <div class="ui basic label">
+    <a href="/show">
+      <i class="settings icon"></i>Статистика та перегляд</a>
+  </div>
+</span>
+
+
 <h2 class="right">Надходження</h2>
 
 <table class="ui red selectable celled table">
@@ -11,7 +19,9 @@
   <tbody>
     <tr *ngFor="let item of data">
       <td>
-        <a [routerLink]="['/show', item.id]"><b>{{ item.article }}</b></a>
+        <a [routerLink]="['/show', item.id]">
+          <b>{{ item.article }}</b>
+        </a>
       </td>
       <td>{{ item.items && item.items.length ? item.items.length : 0 }}</td>
       <td>{{ calculatePrice(item.items) }}</td>

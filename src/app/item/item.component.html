@@ -1,14 +1,29 @@
-<div class="ui raised segment">
+<!-- BREADCRUMBS-->
+<span>
+  <div class="ui basic label">
+    <a href="/show">
+      <i class="settings icon"></i>Статистика та перегляд</a>
+  </div> >
+  <div class="ui basic label" *ngIf="product">
+    <a href="/show/{{ id }}"> {{ product.article }}</a>
+  </div>
+</span>
+
+<div class="ui raised segment" *ngIf="product">
   <div *ngIf="product">
-    <h2>Накладна №{{ product.article }} від {{ product.date }}</h2>
+    <h2>Накладна №{{ product.article }} від {{ parseDate(product.date) }}</h2>
 
     <div class="ui raised segment">
+      <div class="ui ribbon blue label large">
+        ₴{{ getPrice()}}
+      </div>
       <h3>Прийнято</h3>
       <table class="ui teal celled table mini">
         <thead>
           <th>Товар</th>
           <th>Кількість</th>
-          <th>Вартість</th>
+          <th>Вартість одиниці</th>
+          <th class="two wide right aligned">Загальна вартість</th>
         </thead>
         <tbody>
           <tr *ngFor="let item of product.items">
@@ -17,6 +32,11 @@
             </td>
             <td>{{ item.quantity }}</td>
             <td>{{ item.price }}</td>
+            <td>
+              <div class="ui right ribbon label teal">
+                ₴{{ item.price * item.quantity }}
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
