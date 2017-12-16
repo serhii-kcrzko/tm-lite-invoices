@@ -4,7 +4,7 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import _forEach from 'lodash/foreach';
+import _forEach from 'lodash/forEach';
 import _locate from 'lodash/find';
 
 import { BackendService } from '../backend.service';
