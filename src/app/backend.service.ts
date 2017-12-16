@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BackendService {
-  static BASE_URL = process.env.BACKEND_DB || 'http://tm-lite-db.herokuapp.com';
+  static BASE_URL = process.env.BACKEND_DB || 'http://localhost:8080' || 'http://tm-lite-db.herokuapp.com';
 
   constructor(private http: Http) { }
 
@@ -33,6 +33,18 @@ export class BackendService {
 
   getRaws(): Observable<any[]> {
     return this.query('/raws');
+  }
+
+  putInvoice(value: any) {
+    return this.http.post(`${BackendService.BASE_URL}/incomings`, value);
+  }
+
+  getRaw(id: string) {
+    return this.http.get(`${BackendService.BASE_URL}/raws/${id}`);
+  }
+
+  updateRaw(id: string, value: any) {
+    return this.http.put(`${BackendService.BASE_URL}/raws/${id}`, value);
   }
 }
 

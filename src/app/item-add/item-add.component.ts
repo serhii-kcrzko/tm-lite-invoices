@@ -4,8 +4,9 @@ import { FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import _forEach from 'lodash/foreach';
+import _forEach from 'lodash/forEach';
 import _locate from 'lodash/find';
+import _reduce from 'lodash/reduce';
 
 import { BackendService } from '../backend.service';
 
@@ -15,14 +16,13 @@ import { BackendService } from '../backend.service';
   styleUrls: ['./item-add.component.css']
 })
 export class ItemAddComponent implements OnInit {
-
-  public myForm: FormGroup;
+  public addForm: FormGroup;
   public itemsOptions: any;
 
   constructor(private _fb: FormBuilder, private db: BackendService, private http: Http) { }
 
   ngOnInit() {
-    this.myForm = this._fb.group({
+    this.addForm = this._fb.group({
       article: ['', [Validators.required, Validators.minLength(5)]],
       date: ['', [Validators.required]],
       items: this._fb.array([
@@ -43,20 +43,23 @@ export class ItemAddComponent implements OnInit {
   }
 
   addRaw() {
-    const control = <FormArray>this.myForm.controls['items'];
+    this.getPrice();
+    const control = <FormArray>this.addForm.controls['items'];
     control.push(this.initRaw());
   }
 
   removeRaw(i: number) {
-    const control = <FormArray>this.myForm.controls['items'];
+    this.getPrice();
+    const control = <FormArray>this.addForm.controls['items'];
     control.removeAt(i);
   }
 
   save() {
     this.initializeNames();
-    this.http.post('http://tm-lite-db.herokuapp.com/incomings', this.myForm.value)
-      .subscribe((data) => this.myForm.reset());
-    console.log(this.myForm.value);
+    this.updateRawVals();
+    //  this.db.putInvoice(this.addForm.value)
+    //    .subscribe((data) => this.addForm.reset());
+    console.log(this.addForm.value);
   }
 
   getData() {
@@ -70,7 +73,7 @@ export class ItemAddComponent implements OnInit {
   }
 
   initializeNames(): void {
-    _forEach(this.myForm.value.items, i => {
+    _forEach(this.addForm.value.items, i => {
       const id = i.raw.split('-')[0];
       const name = i.raw.split('-')[1];
       i.raw = id;
@@ -78,4 +81,25 @@ export class ItemAddComponent implements OnInit {
     });
   }
 
+  getPrice() {
+    const fullPrice = _reduce(this.addForm.value.items, (sum, item) => {
+      return sum + (+item.price * +item.quantity);
+    }, 0);
+
+    return fullPrice;
+  }
+
+  updateRawVals() {
+    _forEach(this.addForm.value.items, item => {
+      this.db.getRaw(item.raw).subscribe(data => {
+        console.log('ITEM ' + item.raw + ' ' + item.name);
+        console.log(data.json());
+        const dbValue = data.json();
+        dbValue.actualPrice = item.price;
+        dbValue.quantity += item.quantity;
+
+        this.db.updateRaw(dbValue.id, dbValue).subscribe();
+      });
+    });
+  }
 }
