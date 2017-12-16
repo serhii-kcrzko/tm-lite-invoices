@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 
 @Injectable()
 export class BackendService {
-  static BASE_URL = process.env.BACKEND_DB || 'http://localhost:8080' || 'http://tm-lite-db.herokuapp.com';
+  static BASE_URL = process.env.BACKEND_DB || 'http://tm-lite-db.herokuapp.com';
 
   constructor(private http: Http) { }
 
