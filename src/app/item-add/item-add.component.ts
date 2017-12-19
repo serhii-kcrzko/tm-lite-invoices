@@ -92,8 +92,8 @@ export class ItemAddComponent implements OnInit {
     _forEach(this.addForm.value.items, item => {
       this.db.getRaw(item.raw).subscribe(data => {
         const dbValue = data.json();
-        dbValue.actualPrice = item.price;
-        dbValue.quantity += item.quantity;
+        dbValue.actualPrice = +item.price;
+        dbValue.quantity += +item.quantity;
 
         this.db.updateRaw(dbValue.id, dbValue).subscribe();
       });
