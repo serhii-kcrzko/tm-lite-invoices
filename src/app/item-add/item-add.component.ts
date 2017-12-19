@@ -57,9 +57,8 @@ export class ItemAddComponent implements OnInit {
   save() {
     this.initializeNames();
     this.updateRawVals();
-    //  this.db.putInvoice(this.addForm.value)
-    //    .subscribe((data) => this.addForm.reset());
-    console.log(this.addForm.value);
+     this.db.putInvoice(this.addForm.value)
+       .subscribe((data) => this.addForm.reset());
   }
 
   getData() {
@@ -92,8 +91,6 @@ export class ItemAddComponent implements OnInit {
   updateRawVals() {
     _forEach(this.addForm.value.items, item => {
       this.db.getRaw(item.raw).subscribe(data => {
-        console.log('ITEM ' + item.raw + ' ' + item.name);
-        console.log(data.json());
         const dbValue = data.json();
         dbValue.actualPrice = item.price;
         dbValue.quantity += item.quantity;
